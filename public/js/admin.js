@@ -1,44 +1,16 @@
 const admin = {
-  password: null,
-  showAuthError(msg) {
-    const el = document.getElementById('auth-error');
-    if (!el) return;
-    el.textContent = msg || '';
-    el.style.display = msg ? 'block' : 'none';
-  },
-  login() {
-    const input = document.getElementById('admin-password');
-    const btn = document.getElementById('admin-login-btn');
-    this.password = (input && input.value || '').trim();
-    this.showAuthError('');
-    if (!this.password) {
-      this.showAuthError('Please enter the password.');
-      return;
-    }
-    if (btn) { btn.disabled = true; btn.textContent = 'Checking…'; }
-    this.loadDashboard();
-  },
   headers() {
-    return { 'Content-Type': 'application/json', 'X-Admin-Password': this.password };
+    return { 'Content-Type': 'application/json' };
   },
   async loadDashboard() {
-    const btn = document.getElementById('admin-login-btn');
     try {
       const res = await fetch('/admin/respondents', { headers: this.headers() });
-      if (btn) { btn.disabled = false; btn.textContent = 'Enter'; }
-      if (res.status === 401) {
-        this.showAuthError('Invalid password. If you copied from Render, make sure there are no extra spaces or line breaks—try typing it once by hand.');
+      if (!res.ok) {
+        const list = document.getElementById('respondents-list');
+        if (list) list.innerHTML = '<p style="color:#c00">Could not load. ' + (await res.text()) + '</p>';
         return;
       }
-      if (res.status === 503) {
-        const data = await res.json().catch(() => ({}));
-        this.showAuthError(data.error || 'Admin password not configured on server.');
-        return;
-      }
-      this.showAuthError('');
       const respondents = await res.json();
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('dashboard-screen').style.display = 'block';
       const list = document.getElementById('respondents-list');
       if (respondents.length === 0) {
         list.innerHTML = '<p style="color:var(--text-light)">No responses yet.</p>';
@@ -64,11 +36,8 @@ const admin = {
         });
       });
     } catch (err) {
-      if (document.getElementById('admin-login-btn')) {
-        document.getElementById('admin-login-btn').disabled = false;
-        document.getElementById('admin-login-btn').textContent = 'Enter';
-      }
-      this.showAuthError('Could not reach the server. Check your connection and try again.');
+      const list = document.getElementById('respondents-list');
+      if (list) list.innerHTML = '<p style="color:#c00">Could not reach the server. Check your connection and try again.</p>';
     }
   },
   async viewResults(id, name) {
@@ -166,4 +135,4 @@ const admin = {
   },
   esc(str) { if(!str)return''; const d=document.createElement('div'); d.textContent=String(str); return d.innerHTML; }
 };
-document.addEventListener('DOMContentLoaded', () => { document.getElementById('admin-password').addEventListener('keydown', e => { if(e.key==='Enter') admin.login(); }); });
+document.addEventListener('DOMContentLoaded', () => admin.loadDashboard());

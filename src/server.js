@@ -11,12 +11,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Initialize database on startup
+// Initialize database on startup (ensure persistent path on Render: DB_PATH=/opt/render/project/data/quiz.db)
 getDb();
+const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'db', 'quiz.db');
+console.log('Database path:', dbPath);
 
-if (!(process.env.ADMIN_PASSWORD || '').trim()) {
-  console.warn('Warning: ADMIN_PASSWORD is not set. Create a .env file from .env.example and set ADMIN_PASSWORD to log into the admin dashboard.');
-}
+// Health check for keep-alive pings (e.g. UptimeRobot every 10–14 min to prevent Render spin-down)
+app.get('/health', (req, res) => res.status(200).json({ ok: true }));
 
 // API routes
 app.use('/api', apiRoutes);

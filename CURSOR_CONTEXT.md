@@ -7,7 +7,7 @@ Internal web app for the Parish Leadership Team at St. Edward Church (Nashville,
 
 ## Tech stack
 - **Frontend**: Vanilla HTML/CSS/JS (no framework). Entry points: `public/index.html` (quiz), `public/admin.html` (admin).
-- **Backend**: Node.js + Express in `src/server.js`. API routes under `/api/`, admin under `/admin/` with `X-Admin-Password` header.
+- **Backend**: Node.js + Express in `src/server.js`. API routes under `/api/`, admin under `/admin/` (no password).
 - **Database**: SQLite via `better-sqlite3`, path from env `DB_PATH` (default `./db/quiz.db`).
 - **AI**: Anthropic Claude in `src/ai.js` — `generateIndividualReport()` (per-respondent) and `generateCompositeReport()` (group). Prompts are in the same file; output is JSON only.
 
