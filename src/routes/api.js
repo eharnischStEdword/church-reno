@@ -5,14 +5,12 @@ const { getDb } = require('../database');
 const { generateIndividualReport } = require('../ai');
 
 router.post('/respondents', (req, res) => {
-  const { name } = req.body;
-  if (!name || !name.trim()) {
-    return res.status(400).json({ error: 'Name is required' });
-  }
+  const { name } = req.body || {};
+  const label = (name && String(name).trim()) ? String(name).trim() : new Date().toLocaleString();
   const id = uuidv4();
   const db = getDb();
-  db.prepare('INSERT INTO respondents (id, name) VALUES (?, ?)').run(id, name.trim());
-  res.json({ id, name: name.trim() });
+  db.prepare('INSERT INTO respondents (id, name) VALUES (?, ?)').run(id, label);
+  res.json({ id, name: label });
 });
 
 router.post('/responses/:respondentId/section/:section', (req, res) => {

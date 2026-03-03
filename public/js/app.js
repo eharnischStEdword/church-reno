@@ -9,22 +9,12 @@ const app = {
     window.scrollTo(0, 0);
   },
 
-  showNameScreen() {
-    this.showScreen('name');
-    setTimeout(() => document.getElementById('respondent-name').focus(), 100);
-  },
-
   async startQuiz() {
-    const name = document.getElementById('respondent-name').value.trim();
-    if (!name) {
-      document.getElementById('respondent-name').style.borderColor = '#C0392B';
-      return;
-    }
     try {
       const res = await fetch('/api/respondents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name })
+        body: JSON.stringify({})
       });
       const data = await res.json();
       this.respondentId = data.id;
@@ -282,11 +272,4 @@ const app = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const nameInput = document.getElementById('respondent-name');
-  if (nameInput) {
-    nameInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') app.startQuiz();
-    });
-  }
-});
+document.addEventListener('DOMContentLoaded', () => {});
