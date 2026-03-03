@@ -68,6 +68,20 @@ router.get('/composite', async (req, res) => {
   }
 });
 
+router.delete('/respondents/:id', (req, res) => {
+  const db = getDb();
+  const { id } = req.params;
+  try {
+    db.prepare('DELETE FROM responses WHERE respondent_id = ?').run(id);
+    db.prepare('DELETE FROM ai_results WHERE respondent_id = ?').run(id);
+    db.prepare('DELETE FROM respondents WHERE id = ?').run(id);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Delete respondent error:', err);
+    res.status(500).json({ error: 'Failed to delete.' });
+  }
+});
+
 // Regenerate individual result
 router.post('/regenerate/:respondentId', async (req, res) => {
   const db = getDb();

@@ -22,11 +22,22 @@ const admin = {
       list.innerHTML = respondents.map(r => {
         let btns = '';
         if (r.completed_at) {
-          btns = '<button class="btn btn-secondary admin-btn" onclick="admin.viewResults(\'' + r.id + '\',\'' + this.esc(r.name) + '\')">View Results</button> ';
-          btns += '<button class="btn btn-secondary admin-btn" onclick="admin.viewRaw(\'' + r.id + '\',\'' + this.esc(r.name) + '\')">Raw Data</button>';
+          btns = '<button class="btn btn-secondary admin-btn" data-action="view-results" data-id="' + this.esc(r.id) + '" data-name="' + this.esc(r.name) + '">View Results</button> ';
+          btns += '<button class="btn btn-secondary admin-btn" data-action="view-raw" data-id="' + this.esc(r.id) + '" data-name="' + this.esc(r.name) + '">Raw Data</button> ';
         }
-        return '<div class="respondent-card"><div><span class="name">' + this.esc(r.name) + '</span> <span class="status ' + (r.completed_at ? 'complete' : '') + '">' + (r.completed_at ? 'Completed' : 'In progress') + '</span></div><div>' + btns + '</div></div>';
+        btns += '<button class="btn btn-danger admin-btn" data-action="delete" data-id="' + this.esc(r.id) + '" data-name="' + this.esc(r.name) + '">Delete</button>';
+        return '<div class="respondent-card" data-respondent-id="' + this.esc(r.id) + '"><div><span class="name">' + this.esc(r.name) + '</span> <span class="status ' + (r.completed_at ? 'complete' : '') + '">' + (r.completed_at ? 'Completed' : 'In progress') + '</span></div><div class="card-actions">' + btns + '</div></div>';
       }).join('');
+      list.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          const name = btn.getAttribute('data-name');
+          const action = btn.getAttribute('data-action');
+          if (action === 'view-results') admin.viewResults(id, name);
+          else if (action === 'view-raw') admin.viewRaw(id, name);
+          else if (action === 'delete') admin.deleteRespondent(id, name);
+        });
+      });
     } catch (err) { alert('Failed to load dashboard.'); }
   },
   async viewResults(id, name) {
@@ -85,6 +96,22 @@ const admin = {
       await fetch('/admin/regenerate/' + id, { method: 'POST', headers: this.headers() });
       this.viewResults(id, name);
     } catch (err) { detail.innerHTML = '<p>Failed.</p>'; }
+  },
+  async deleteRespondent(id, nameAttr) {
+    const nameDisplay = (() => { const d = document.createElement('div'); d.innerHTML = nameAttr || ''; return d.textContent || 'this entry'; })();
+    if (!confirm('Permanently delete all responses and results for “‘ + nameDisplay + '”? This cannot be undone.')) return;
+    try {
+      const res = await fetch('/admin/respondents/' + encodeURIComponent(id), { method: 'DELETE', headers: this.headers() });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || 'Delete failed.');
+        return;
+      }
+      document.getElementById('admin-detail').innerHTML = '';
+      this.loadDashboard();
+    } catch (err) {
+      alert('Failed to delete.');
+    }
   },
   async generateComposite() {
     const detail = document.getElementById('admin-detail');

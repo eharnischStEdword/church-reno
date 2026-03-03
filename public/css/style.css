@@ -7,14 +7,19 @@
 :root {
   --green: #2D5A27;
   --green-light: #3A7233;
-  --gold: #C5A55A;
+  --green-dark: #1e3d1a;
+  --gold: #B8942E;
   --gold-light: #D4BA7A;
-  --bg: #FAFAF8;
+  --bg: #F8F7F4;
+  --bg-card: #FFFFFF;
   --text: #2C2C2C;
-  --text-light: #666;
-  --border: #E0DDD8;
+  --text-light: #5c5c5c;
+  --border: #E5E2DC;
   --white: #FFFFFF;
-  --error: #C0392B;
+  --error: #B52A20;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-hover: 0 2px 8px rgba(45, 90, 39, 0.08);
 }
 
 html {
@@ -26,26 +31,26 @@ body {
   font-family: 'Georgia', 'Times New Roman', serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   min-height: 100vh;
 }
 
 .container {
   max-width: 680px;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.5rem;
 }
 
 /* ── Header ── */
 .header {
   text-align: center;
-  padding: 2rem 0 1rem;
+  padding: 2.25rem 0 1.25rem;
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
 }
 
 .header h1 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: var(--green);
   letter-spacing: 0.02em;
@@ -54,7 +59,7 @@ body {
 .header .subtitle {
   font-size: 0.9rem;
   color: var(--text-light);
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
   font-style: italic;
 }
 
@@ -95,26 +100,30 @@ body {
 /* ── Landing Page ── */
 .landing-content {
   text-align: center;
-  padding: 2rem 0;
+  padding: 2.5rem 0;
 }
 
 .landing-content h2 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
   color: var(--green);
+  line-height: 1.35;
 }
 
 .landing-content p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
   color: var(--text-light);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
+  max-width: 52ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .landing-content .time-note {
   font-size: 0.85rem;
   color: var(--gold);
   font-style: italic;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 /* ── Name Input ── */
@@ -125,26 +134,28 @@ body {
 
 .name-section label {
   display: block;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
   color: var(--green);
 }
 
 .name-section input {
   font-family: inherit;
-  font-size: 1.1rem;
-  padding: 0.75rem 1rem;
+  font-size: 1.05rem;
+  padding: 0.8rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   width: 100%;
   max-width: 320px;
   text-align: center;
-  background: var(--white);
+  background: var(--bg-card);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .name-section input:focus {
   outline: none;
   border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12);
 }
 
 /* ── Buttons ── */
@@ -152,11 +163,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.75rem;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s, box-shadow 0.2s;
   display: inline-block;
   margin-top: 1.5rem;
 }
@@ -176,7 +187,16 @@ body {
 }
 
 .btn-secondary:hover {
-  background: rgba(45, 90, 39, 0.05);
+  background: rgba(45, 90, 39, 0.06);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--error);
+  border: 1px solid rgba(181, 42, 32, 0.4);
+}
+.btn-danger:hover {
+  background: rgba(181, 42, 32, 0.06);
 }
 
 .btn:disabled {
@@ -240,9 +260,9 @@ body {
   padding: 0.5rem 1rem;
   border: 1px solid var(--border);
   border-radius: 20px;
-  background: var(--white);
+  background: var(--bg-card);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
   user-select: none;
 }
 
@@ -268,10 +288,10 @@ body {
   font-size: 0.9rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--white);
+  border-radius: var(--radius);
+  background: var(--bg-card);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s, background 0.15s;
   text-align: left;
 }
 
@@ -281,7 +301,7 @@ body {
 
 .option-card.selected {
   border-color: var(--green);
-  background: rgba(45, 90, 39, 0.05);
+  background: rgba(45, 90, 39, 0.06);
   font-weight: 500;
 }
 
@@ -345,8 +365,8 @@ body {
   font-family: inherit;
   font-size: 0.95rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--white);
+  border-radius: var(--radius);
+  background: var(--bg-card);
   resize: vertical;
   line-height: 1.5;
 }
@@ -354,6 +374,7 @@ body {
 .open-text:focus {
   outline: none;
   border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
 }
 
 /* ── Results Page ── */
@@ -378,7 +399,7 @@ body {
 
 .result-section {
   margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.75rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -387,26 +408,25 @@ body {
 }
 
 .result-section h3 {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--green);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.8rem;
+  letter-spacing: 0.06em;
 }
 
 .result-section p, .result-section li {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.96rem;
+  line-height: 1.65;
 }
 
 .result-profile-title {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   color: var(--green);
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .reference-churches {
@@ -415,8 +435,8 @@ body {
 }
 
 .reference-churches li {
-  padding: 0.4rem 0;
-  padding-left: 1.2rem;
+  padding: 0.35rem 0;
+  padding-left: 1.25rem;
   position: relative;
 }
 
@@ -427,13 +447,24 @@ body {
   left: 0;
 }
 
+.reference-churches a {
+  color: var(--green);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+.reference-churches a:hover {
+  color: var(--green-dark);
+  border-bottom-color: var(--green);
+}
+
 .contradiction-card {
-  background: #FFF9ED;
+  background: #FDF8F0;
   border-left: 3px solid var(--gold);
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   margin-bottom: 0.75rem;
   font-size: 0.9rem;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 /* ── Admin Page ── */
@@ -447,20 +478,28 @@ body {
 }
 
 .respondent-card {
-  background: var(--white);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 1rem 1.25rem;
   margin-bottom: 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.respondent-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(45, 90, 39, 0.2);
 }
 
 .respondent-card .name {
   font-weight: 600;
+  color: var(--text);
 }
 
 .respondent-card .status {
@@ -473,9 +512,17 @@ body {
   color: var(--green);
 }
 
+.respondent-card .card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .admin-btn {
   font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
+  padding: 0.45rem 0.85rem;
+  margin-top: 0;
 }
 
 /* ── Mobile ── */
