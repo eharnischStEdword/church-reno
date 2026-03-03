@@ -40,8 +40,36 @@ npm run dev
 2. Create a new Web Service on Render, connect this repo
 3. Render will auto-detect settings from `render.yaml`
 4. Add your `ANTHROPIC_API_KEY` in Render's environment variables (admin has no password)
-5. Add a 1GB disk mounted at `/opt/render/project/data` and set `DB_PATH=/opt/render/project/data/quiz.db` so responses persist (at least 1 month; data is not auto-deleted)
-6. **Keep the instance awake**: On the free tier, Render spins down after ~15 min of no traffic. Use [UptimeRobot](https://uptimerobot.com) (or similar) to ping `https://your-app.onrender.com/health` every 10–14 minutes so the app stays up
+5. Add disk and env (see **Render: disk + keep-awake** below).
+
+### Render: disk + keep-awake (step-by-step)
+
+**A. Persistent disk and DB_PATH (so responses don’t vanish)**
+
+- In [Render Dashboard](https://dashboard.render.com) → your **st-edward-quiz** (or the service name you use) → **Disks** in the left sidebar.
+- Click **Add Disk**.
+  - **Name**: `quiz-data` (or any name).
+  - **Mount Path**: `/opt/render/project/data` (exactly).
+  - **Size**: 1 GB.
+- Save. Render will redeploy.
+- In the same service go to **Environment**.
+  - Add (or edit) **DB_PATH** = `/opt/render/project/data/quiz.db` (no quotes).
+- Redeploy if you added DB_PATH after the disk was created.
+
+After deploy, in **Logs** you should see: `Database path: /opt/render/project/data/quiz.db`.
+
+**B. Keep the instance awake (UptimeRobot)**
+
+- Go to [UptimeRobot](https://uptimerobot.com) and sign up (free) or log in.
+- Click **+ Add New Monitor**.
+  - **Monitor Type**: HTTP(s).
+  - **Friendly Name**: e.g. `St Edward Quiz`.
+  - **URL**: `https://YOUR-RENDER-URL.onrender.com/health`  
+    (replace `YOUR-RENDER-URL` with your actual service URL, e.g. `st-edward-quiz-xxxx`).
+  - **Monitoring Interval**: 5 minutes (or 10–14 minutes if you prefer).
+- Click **Create Monitor**.
+
+Done. The monitor will hit `/health` on that interval so the free-tier instance doesn’t spin down.
 
 ## Admin Access
 
