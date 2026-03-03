@@ -14,13 +14,13 @@
     </div>
 
     <div id="auth-screen">
-      <div class="name-section">
+      <form class="name-section" id="admin-login-form" method="post" action="#" onsubmit="admin.login(); return false;">
         <label for="admin-password">Admin Password</label>
         <input type="password" id="admin-password" placeholder="Enter password" autocomplete="current-password">
         <p id="auth-error" class="auth-error" style="display:none;"></p>
         <br>
-        <button class="btn btn-primary" id="admin-login-btn" onclick="admin.login()">Enter</button>
-      </div>
+        <button type="submit" class="btn btn-primary" id="admin-login-btn">Enter</button>
+      </form>
     </div>
 
     <div id="dashboard-screen" style="display:none;">

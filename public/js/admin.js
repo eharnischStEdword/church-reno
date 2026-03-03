@@ -134,7 +134,7 @@ const admin = {
   },
   async deleteRespondent(id, nameAttr) {
     const nameDisplay = (() => { const d = document.createElement('div'); d.innerHTML = nameAttr || ''; return d.textContent || 'this entry'; })();
-    if (!confirm('Permanently delete all responses and results for “‘ + nameDisplay + '”? This cannot be undone.')) return;
+    if (!confirm('Permanently delete all responses and results for "' + nameDisplay + '"? This cannot be undone.')) return;
     try {
       const res = await fetch('/admin/respondents/' + encodeURIComponent(id), { method: 'DELETE', headers: this.headers() });
       if (!res.ok) {
