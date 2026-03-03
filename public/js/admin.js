@@ -39,7 +39,7 @@ const admin = {
       let h = '<h2 style="color:var(--green)">' + this.esc(name) + '</h2>';
       h += '<div class="result-profile-title">' + this.esc(data.profileTitle) + '</div>';
       h += '<div class="result-section"><h3>Profile</h3><p>' + this.esc(data.profileDescription) + '</p></div>';
-      h += '<div class="result-section"><h3>Reference Churches</h3><ul class="reference-churches">' + (data.referenceChurches||[]).map(c=>'<li>'+this.esc(c)+'</li>').join('') + '</ul></div>';
+      h += '<div class="result-section"><h3>Reference Churches</h3><ul class="reference-churches"></ul></div>';
       h += '<div class="result-section"><h3>Sanctuary</h3><p>' + this.esc(data.sanctuaryVision) + '</p></div>';
       h += '<div class="result-section"><h3>Light/Materials</h3><p>' + this.esc(data.lightAndMaterials) + '</p></div>';
       h += '<div class="result-section"><h3>Sacred Art</h3><p>' + this.esc(data.sacredArtDirection) + '</p></div>';
@@ -48,6 +48,25 @@ const admin = {
       h += '<div class="result-section"><h3>Design Brief</h3><p>' + this.esc(data.designBrief) + '</p></div>';
       h += '<button class="btn btn-secondary admin-btn" onclick="admin.regenerate(\'' + id + '\',\'' + name + '\')">Regenerate</button>';
       detail.innerHTML = h;
+      const refList = detail.querySelector('.reference-churches');
+      if (refList && (data.referenceChurches || []).length) {
+        (data.referenceChurches || []).forEach(c => {
+          const name = typeof c === 'string' ? c : (c && c.name) || '';
+          const url = typeof c === 'object' && c && c.url && (String(c.url).startsWith('http://') || String(c.url).startsWith('https://')) ? c.url : null;
+          const li = document.createElement('li');
+          if (url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = name;
+            li.appendChild(a);
+          } else {
+            li.textContent = name;
+          }
+          refList.appendChild(li);
+        });
+      }
     } catch (err) { detail.innerHTML = '<p>Failed to load.</p>'; }
   },
   async viewRaw(id, name) {

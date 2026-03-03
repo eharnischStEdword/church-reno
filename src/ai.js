@@ -12,11 +12,11 @@ You will receive their quiz answers spanning 7 sections: Vision & Identity, Litu
 
 Your job is to produce a clear, specific architectural interpretation of their preferences. You must:
 
-1. PROFILE: Identify their overall aesthetic direction with specificity. Not "traditional" but "late Romanesque warmth with strong vertical emphasis" or "bright, clean Roman basilica aesthetic" or "intimate Benedictine chapel character." Name 2-3 real churches that match their profile.
+1. PROFILE: Identify their overall aesthetic direction with specificity. Not "traditional" but "late Romanesque warmth with strong vertical emphasis" or "bright, clean Roman basilica aesthetic" or "intimate Benedictine chapel character." Name 2-3 real churches that match their profile. For each reference church, when you know a reliable URL (official parish site, Wikipedia, or reputable architecture source), include it so users can visit.
 
 2. SANCTUARY VISION: Translate their sanctuary answers into a concrete description. How many steps? What material? What does the altar area look like? Where is the tabernacle? How does light fall on the sanctuary vs the nave?
 
-3. LIGHT & MATERIALS: Describe the lighting approach and material palette in terms an architect would use. Name specific materials, lighting fixtures types, color temperatures (in Kelvin if useful), and reference real examples.
+3. LIGHT & MATERIALS: Describe the lighting approach and material palette in terms an architect would use. Name specific materials, lighting fixtures types, and color temperatures. When using Kelvin (K): daylight is about 5500K; 2700–3000K is warmer (amber/incandescent), and higher values (e.g. 4000K+) are cooler (bluer). When you cite a Kelvin value, briefly note whether it is warmer or cooler (e.g. "3000K (warmer)" or "5500K daylight").
 
 4. SACRED ART DIRECTION: What does the art program look like? Scale of crucifix, Marian presence, saints program, wall treatment.
 
@@ -24,20 +24,20 @@ Your job is to produce a clear, specific architectural interpretation of their p
 
 6. CONTRADICTIONS: Flag any tensions in their answers. Be direct. "You indicated you want simplicity (scoring 2/5 on richness) but also want walls that catechize (4/5) and prominent Marian presence (4/5). These pull in different directions. A minimalist space with significant iconographic programs is possible but requires careful curation."
 
-7. DESIGN DIRECTION: A single paragraph summary an architect could read as a brief.
+7. DESIGN DIRECTION: A single paragraph summary an architect could read as a brief. If you mention lighting color temperature in Kelvin, include the scale context: daylight ≈5500K; 2700–3000K is warmer, higher K is cooler.
 
 Format your response as JSON with these keys:
 {
   "profileTitle": "Short name for their aesthetic direction (e.g., 'Warm Romanesque Revival')",
   "profileDescription": "2-3 sentences describing their overall direction",
-  "referenceChurches": ["Church 1 - City, State/Country", "Church 2", "Church 3"],
+  "referenceChurches": [{"name": "Church Name - City", "url": "https://parish-or-wikipedia-url"}]. Use "url" only when you know a reliable link; otherwise omit url or use name-only string.
   "sanctuaryVision": "Detailed sanctuary description",
   "lightAndMaterials": "Detailed light and materials description",
   "sacredArtDirection": "Art program description",
   "atmosphereSummary": "The vivid walk-in description",
   "contradictions": ["Contradiction 1", "Contradiction 2"] or [],
   "designBrief": "The architect-ready paragraph",
-  "keyDecisions": ["Decision this person should think more about"]
+  "keyDecisions": ["Topic or decision this person should think more about (phrase as a topic, not a question)"]
 }
 
 Use correct Catholic liturgical terminology throughout. Be specific. Name real churches, real materials, real lighting approaches. Do not be vague.`;
@@ -52,7 +52,7 @@ You will receive quiz responses from multiple PLT members. Your job is to:
 
 3. COMPOSITE PROFILE: Despite disagreements, what is the overall direction this group is pointing? Synthesize a design direction that honors the consensus while flagging the contested items.
 
-4. DESIGN BRIEF: Write 2-3 paragraphs an architect could read as a starting brief. This should reflect what the group collectively wants, noting where flexibility is needed.
+4. DESIGN BRIEF: Write 2-3 paragraphs an architect could read as a starting brief. This should reflect what the group collectively wants, noting where flexibility is needed. When mentioning Kelvin (K) for lighting: daylight is about 5500K; 2700–3000K is warmer (amber), higher K is cooler (bluer)—state whether a given value is warmer or cooler.
 
 5. DECISIONS NEEDED: List the 3-5 specific decisions where the PLT has real disagreement and needs to have a focused conversation.
 

@@ -219,9 +219,7 @@ const app = {
     let html = '';
     html += '<div class="result-profile-title">' + this.esc(data.profileTitle) + '</div>';
     html += '<div class="result-section"><h3>Your Aesthetic Profile</h3><p>' + this.esc(data.profileDescription) + '</p></div>';
-    html += '<div class="result-section"><h3>Reference Churches</h3><ul class="reference-churches">';
-    (data.referenceChurches || []).forEach(c => { html += '<li>' + this.esc(c) + '</li>'; });
-    html += '</ul></div>';
+    html += '<div class="result-section"><h3>Reference Churches</h3><ul class="reference-churches"></ul></div>';
     html += '<div class="result-section"><h3>Sanctuary Vision</h3><p>' + this.esc(data.sanctuaryVision) + '</p></div>';
     html += '<div class="result-section"><h3>Light &amp; Materials</h3><p>' + this.esc(data.lightAndMaterials) + '</p></div>';
     html += '<div class="result-section"><h3>Sacred Art Direction</h3><p>' + this.esc(data.sacredArtDirection) + '</p></div>';
@@ -236,7 +234,7 @@ const app = {
     html += '<div class="result-section"><h3>Design Brief</h3><p>' + this.esc(data.designBrief) + '</p></div>';
 
     if (data.keyDecisions && data.keyDecisions.length > 0) {
-      html += '<div class="result-section"><h3>Questions for You</h3><ul class="reference-churches">';
+      html += '<div class="result-section"><h3>Decisions to Consider</h3><ul class="reference-churches">';
       data.keyDecisions.forEach(d => { html += '<li>' + this.esc(d) + '</li>'; });
       html += '</ul></div>';
     }
@@ -244,6 +242,25 @@ const app = {
     html += '<div style="text-align: center; padding: 2rem 0; color: var(--text-light); font-size: 0.85rem;">';
     html += 'Your responses have been saved. The admin will use these along with everyone else\'s to generate a group composite report.</div>';
     el.innerHTML = html;
+    const refList = el.querySelector('.reference-churches');
+    if (refList) {
+      (data.referenceChurches || []).forEach(c => {
+        const name = typeof c === 'string' ? c : (c && c.name) || '';
+        const url = typeof c === 'object' && c && c.url && (String(c.url).startsWith('http://') || String(c.url).startsWith('https://')) ? c.url : null;
+        const li = document.createElement('li');
+        if (url) {
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = name;
+          li.appendChild(a);
+        } else {
+          li.textContent = name;
+        }
+        refList.appendChild(li);
+      });
+    }
   },
 
   renderResultsError(msg) {
