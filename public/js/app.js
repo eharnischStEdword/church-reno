@@ -255,6 +255,10 @@ const app = {
           a.rel = 'noopener noreferrer';
           a.textContent = name;
           li.appendChild(a);
+          const urlSpan = document.createElement('span');
+          urlSpan.className = 'reference-church-url';
+          urlSpan.textContent = ' ' + url;
+          li.appendChild(urlSpan);
         } else {
           li.textContent = name;
         }

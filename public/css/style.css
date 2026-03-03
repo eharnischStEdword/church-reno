@@ -449,13 +449,24 @@ body {
 
 .reference-churches a {
   color: var(--green);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s, color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
 }
 .reference-churches a:hover {
   color: var(--green-dark);
-  border-bottom-color: var(--green);
+}
+
+.reference-church-url {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  word-break: break-all;
+  margin-top: 0.15rem;
+  margin-left: 1.25rem;
+}
+.reference-churches a + .reference-church-url {
+  margin-left: 0;
 }
 
 .contradiction-card {

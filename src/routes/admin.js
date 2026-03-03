@@ -4,8 +4,12 @@ const { getDb } = require('../database');
 const { generateCompositeReport } = require('../ai');
 
 function requireAuth(req, res, next) {
-  const password = req.headers['x-admin-password'] || req.query.password;
-  if (password !== process.env.ADMIN_PASSWORD) {
+  const password = (req.headers['x-admin-password'] || req.query.password || '').trim();
+  const expected = (process.env.ADMIN_PASSWORD || '').trim();
+  if (!expected) {
+    return res.status(503).json({ error: 'Admin password not configured. Set ADMIN_PASSWORD in .env.' });
+  }
+  if (password !== expected) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   next();

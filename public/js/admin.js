@@ -11,6 +11,11 @@ const admin = {
     try {
       const res = await fetch('/admin/respondents', { headers: this.headers() });
       if (res.status === 401) { alert('Invalid password.'); return; }
+      if (res.status === 503) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || 'Admin password not configured on server.');
+        return;
+      }
       const respondents = await res.json();
       document.getElementById('auth-screen').style.display = 'none';
       document.getElementById('dashboard-screen').style.display = 'block';
@@ -72,6 +77,10 @@ const admin = {
             a.rel = 'noopener noreferrer';
             a.textContent = name;
             li.appendChild(a);
+            const urlSpan = document.createElement('span');
+            urlSpan.className = 'reference-church-url';
+            urlSpan.textContent = ' ' + url;
+            li.appendChild(urlSpan);
           } else {
             li.textContent = name;
           }

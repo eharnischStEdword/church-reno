@@ -14,6 +14,10 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // Initialize database on startup
 getDb();
 
+if (!(process.env.ADMIN_PASSWORD || '').trim()) {
+  console.warn('Warning: ADMIN_PASSWORD is not set. Create a .env file from .env.example and set ADMIN_PASSWORD to log into the admin dashboard.');
+}
+
 // API routes
 app.use('/api', apiRoutes);
 app.use('/admin', adminRoutes);
