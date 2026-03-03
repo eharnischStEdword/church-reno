@@ -1,21 +1,41 @@
 const admin = {
   password: null,
+  showAuthError(msg) {
+    const el = document.getElementById('auth-error');
+    if (!el) return;
+    el.textContent = msg || '';
+    el.style.display = msg ? 'block' : 'none';
+  },
   login() {
-    this.password = document.getElementById('admin-password').value;
+    const input = document.getElementById('admin-password');
+    const btn = document.getElementById('admin-login-btn');
+    this.password = (input && input.value || '').trim();
+    this.showAuthError('');
+    if (!this.password) {
+      this.showAuthError('Please enter the password.');
+      return;
+    }
+    if (btn) { btn.disabled = true; btn.textContent = 'Checking…'; }
     this.loadDashboard();
   },
   headers() {
     return { 'Content-Type': 'application/json', 'X-Admin-Password': this.password };
   },
   async loadDashboard() {
+    const btn = document.getElementById('admin-login-btn');
     try {
       const res = await fetch('/admin/respondents', { headers: this.headers() });
-      if (res.status === 401) { alert('Invalid password.'); return; }
-      if (res.status === 503) {
-        const data = await res.json().catch(() => ({}));
-        alert(data.error || 'Admin password not configured on server.');
+      if (btn) { btn.disabled = false; btn.textContent = 'Enter'; }
+      if (res.status === 401) {
+        this.showAuthError('Invalid password. If you copied from Render, make sure there are no extra spaces or line breaks—try typing it once by hand.');
         return;
       }
+      if (res.status === 503) {
+        const data = await res.json().catch(() => ({}));
+        this.showAuthError(data.error || 'Admin password not configured on server.');
+        return;
+      }
+      this.showAuthError('');
       const respondents = await res.json();
       document.getElementById('auth-screen').style.display = 'none';
       document.getElementById('dashboard-screen').style.display = 'block';
@@ -43,7 +63,13 @@ const admin = {
           else if (action === 'delete') admin.deleteRespondent(id, name);
         });
       });
-    } catch (err) { alert('Failed to load dashboard.'); }
+    } catch (err) {
+      if (document.getElementById('admin-login-btn')) {
+        document.getElementById('admin-login-btn').disabled = false;
+        document.getElementById('admin-login-btn').textContent = 'Enter';
+      }
+      this.showAuthError('Could not reach the server. Check your connection and try again.');
+    }
   },
   async viewResults(id, name) {
     const detail = document.getElementById('admin-detail');

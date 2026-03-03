@@ -16,9 +16,10 @@
     <div id="auth-screen">
       <div class="name-section">
         <label for="admin-password">Admin Password</label>
-        <input type="password" id="admin-password" placeholder="Enter password">
+        <input type="password" id="admin-password" placeholder="Enter password" autocomplete="current-password">
+        <p id="auth-error" class="auth-error" style="display:none;"></p>
         <br>
-        <button class="btn btn-primary" onclick="admin.login()">Enter</button>
+        <button class="btn btn-primary" id="admin-login-btn" onclick="admin.login()">Enter</button>
       </div>
     </div>
 
