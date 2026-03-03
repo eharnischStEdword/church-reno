@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | St. Edward Renovation Quiz</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container" style="max-width: 800px;">
+    <div class="header">
+      <h1>St. Edward Church</h1>
+      <p class="subtitle">Admin Dashboard</p>
+    </div>
+
+    <div id="auth-screen">
+      <div class="name-section">
+        <label for="admin-password">Admin Password</label>
+        <input type="password" id="admin-password" placeholder="Enter password">
+        <br>
+        <button class="btn btn-primary" onclick="admin.login()">Enter</button>
+      </div>
+    </div>
+
+    <div id="dashboard-screen" style="display:none;">
+      <div class="admin-header">
+        <h2 style="font-size: 1.1rem; color: var(--green);">Responses</h2>
+        <button class="btn btn-primary admin-btn" onclick="admin.generateComposite()">
+          Generate Composite Report
+        </button>
+      </div>
+      <div id="respondents-list"></div>
+      <div id="admin-detail" style="margin-top: 2rem;"></div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

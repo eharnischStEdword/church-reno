@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>St. Edward Church | Renovation Vision Quiz</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>St. Edward Church</h1>
+      <p class="subtitle">Renovation Vision Quiz</p>
+    </div>
+
+    <!-- Landing Screen -->
+    <div id="screen-landing" class="screen active">
+      <div class="landing-content">
+        <h2>Help Us See What You See</h2>
+        <p>
+          We all use words like "traditional," "reverent," or "beautiful" when we talk about this renovation. 
+          But those words mean different things to different people.
+        </p>
+        <p>
+          This quiz translates your preferences into specific architectural language, with real examples, 
+          so the design team knows exactly what you mean.
+        </p>
+        <p>
+          There are no wrong answers. Answer honestly, not strategically. 
+          The point is clarity, not consensus.
+        </p>
+        <p class="time-note">Takes about 15-20 minutes. Seven sections.</p>
+        <button class="btn btn-primary" onclick="app.showNameScreen()">Begin</button>
+      </div>
+    </div>
+
+    <!-- Name Screen -->
+    <div id="screen-name" class="screen">
+      <div class="name-section">
+        <label for="respondent-name">Your name</label>
+        <input type="text" id="respondent-name" placeholder="First and last name" autocomplete="name">
+        <br>
+        <button class="btn btn-primary" onclick="app.startQuiz()">Start Quiz</button>
+      </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="screen-quiz" class="screen">
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label" id="progress-label"></div>
+      </div>
+      <div class="section-header">
+        <h2 id="section-title"></h2>
+        <p id="section-description"></p>
+      </div>
+      <div id="questions-container"></div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-prev" onclick="app.prevSection()">Back</button>
+        <button class="btn btn-primary" id="btn-next" onclick="app.nextSection()">Continue</button>
+      </div>
+    </div>
+
+    <!-- Submitting Screen -->
+    <div id="screen-submitting" class="screen">
+      <div class="results-loading">
+        <div class="spinner"></div>
+        <p>Processing your responses...</p>
+        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">
+          Our AI is translating your preferences into architectural language. This takes 15-30 seconds.
+        </p>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="screen-results" class="screen">
+      <div id="results-content"></div>
+    </div>
+  </div>
+
+  <script src="/js/questions.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

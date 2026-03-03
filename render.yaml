@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: st-edward-quiz
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: /opt/render/project/data/quiz.db
+    disk:
+      name: quiz-data
+      mountPath: /opt/render/project/data
+      sizeGB: 1
